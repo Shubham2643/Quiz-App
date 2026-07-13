@@ -1,0 +1,42 @@
+name: Update README Deployment Link
+
+on:
+  deployment_status:
+
+permissions:
+  contents: write
+
+jobs:
+  update-readme:
+    if: github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Update README.md
+        env:
+          TARGET_URL: ${{ github.event.deployment_status.target_url }}
+        run: |
+          node -e '
+            const fs = require("fs");
+            const readmePath = "README.md";
+            if (!fs.existsSync(readmePath)) {
+              console.error("README.md not found");
+              process.exit(1);
+            }
+            let readmeContent = fs.readFileSync(readmePath, "utf8");
+            const targetUrl = process.env.TARGET_URL;
+            const regex = /(<!-- DEPLOYMENT_LINK_START -->)[\s\S]*?(<!-- DEPLOYMENT_LINK_END -->)/;
+            const replacement = `$1\n[![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?style=for-the-badge&logo=vercel&logoColor=white)](${targetUrl})\n$2`;
+            readmeContent = readmeContent.replace(regex, replacement);
+            fs.writeFileSync(readmePath, readmeContent);
+            console.log("Successfully updated README.md with deployment URL:", targetUrl);
+          '
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: auto-update deployment link in README" && git push)
