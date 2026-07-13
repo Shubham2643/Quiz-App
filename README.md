@@ -2,6 +2,8 @@
 
 A modern, highly customizable trivia quiz application built with vanilla HTML, CSS, and JavaScript. The app is powered by the **Open Trivia Database (OpenTDB) API** to fetch dynamic, up-to-date questions across various categories and difficulty levels.
 
+![App Screenshot](screenshot.png)
+
 ---
 
 ## 🚀 Live Demo
