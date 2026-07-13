@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Knowledge Quiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1><i class="fas fa-globe-americas"></i> Global Knowledge Quiz</h1>
+            <p>Test your knowledge with questions from around the world</p>
+            <div class="quiz-progress">
+                <span id="progress-text">Select Quiz Options</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="timer-container">
+                    <i class="fas fa-clock"></i>
+                    <span id="timer">00:00</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="quiz-body">
+            <!-- Setup Screen -->
+            <div id="setup-container" class="setup-container">
+                <h2 class="setup-title">Customize Your Quiz</h2>
+                
+                <div class="setup-options">
+                    <div class="setup-card">
+                        <h3><i class="fas fa-layer-group"></i> Category</h3>
+                        <div class="option-group" id="category-options">
+                            <!-- Categories will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="setup-card">
+                        <h3><i class="fas fa-sliders-h"></i> Difficulty</h3>
+                        <div class="option-group" id="difficulty-options">
+                            <label class="option-label" data-value="any">
+                                <input type="radio" name="difficulty" value="any" checked>
+                                <span>Any Difficulty</span>
+                            </label>
+                            <label class="option-label" data-value="easy">
+                                <input type="radio" name="difficulty" value="easy">
+                                <span>Easy</span>
+                            </label>
+                            <label class="option-label" data-value="medium">
+                                <input type="radio" name="difficulty" value="medium">
+                                <span>Medium</span>
+                            </label>
+                            <label class="option-label" data-value="hard">
+                                <input type="radio" name="difficulty" value="hard">
+                                <span>Hard</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="setup-card">
+                        <h3><i class="fas fa-cog"></i> Quiz Settings</h3>
+                        <div class="option-group">
+                            <label class="option-label" data-value="10">
+                                <input type="radio" name="questionCount" value="10" checked>
+                                <span>10 Questions</span>
+                            </label>
+                            <label class="option-label" data-value="15">
+                                <input type="radio" name="questionCount" value="15">
+                                <span>15 Questions</span>
+                            </label>
+                            <label class="option-label" data-value="20">
+                                <input type="radio" name="questionCount" value="20">
+                                <span>20 Questions</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="start-btn">
+                    <i class="fas fa-play"></i>
+                    Start Quiz
+                </button>
+            </div>
+            
+            <!-- Loading Screen -->
+            <div id="loading" class="loading">
+                <div class="loading-spinner"></div>
+                <h3>Loading Questions</h3>
+                <p>Please wait while we prepare your quiz...</p>
+            </div>
+            
+            <!-- Error Screen -->
+            <div id="error-message" class="error-message">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>Failed to Load Questions</h3>
+                <p>There was an error loading the quiz questions. Please check your internet connection and try again.</p>
+                <button type="button" id="retry-btn">
+                    <i class="fas fa-redo"></i>
+                    Try Again
+                </button>
+            </div>
+            
+            <!-- Question Screen -->
+            <div id="question-container" class="question-container">
+                <h2 class="question-text" id="question-text">Question text appears here</h2>
+                <div class="question-meta">
+                    <span class="meta-tag" id="category-tag">General Knowledge</span>
+                    <span class="meta-tag" id="difficulty-tag">Medium</span>
+                    <span class="meta-tag" id="type-tag">Multiple Choice</span>
+                </div>
+                <div class="options-container" id="options-container">
+                    <!-- Options will be inserted here by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Results Screen -->
+            <div id="results-container" class="results-container">
+                <div class="results-header">
+                    <h2>Quiz Completed!</h2>
+                    <p>You've finished the knowledge challenge</p>
+                </div>
+                
+                <div class="score-display">
+                    <div class="score-circle" id="score-circle">
+                        <span class="score-text" id="score-percent">0%</span>
+                    </div>
+                </div>
+                
+                <div class="score-details">
+                    <div class="score-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div class="value" id="correct-answers">0</div>
+                        <div class="label">Correct Answers</div>
+                    </div>
+                    <div class="score-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <div class="value" id="score-percent-value">0%</div>
+                        <div class="label">Score</div>
+                    </div>
+                    <div class="score-item">
+                        <i class="fas fa-clock"></i>
+                        <div class="value" id="time-taken">00:00</div>
+                        <div class="label">Time Taken</div>
+                    </div>
+                </div>
+                
+                <div class="results-details" id="results-details">
+                    <!-- Results details will be inserted here by JavaScript -->
+                </div>
+                
+                <button id="restart-btn">
+                    <i class="fas fa-redo"></i>
+                    Take Another Quiz
+                </button>
+            </div>
+        </div>
+        
+        <div class="quiz-footer">
+            <button id="prev-btn">
+                <i class="fas fa-arrow-left"></i>
+                Previous
+            </button>
+            <button id="next-btn">
+                Next
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            <button id="submit-btn">
+                <i class="fas fa-paper-plane"></i>
+                Submit Quiz
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
