@@ -3,175 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Knowledge Quiz</title>
+    <meta name="description" content="Immerse yourself in the Global Quiz Dashboard. Track player profile accuracy, unlock achievements, climb the leaderboards, and take timed challenges.">
+    <title>BrainWave - Premium Trivia & Analytics Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div class="quiz-container">
-        <div class="quiz-header">
-            <h1><i class="fas fa-globe-americas"></i> Global Knowledge Quiz</h1>
-            <p>Test your knowledge with questions from around the world</p>
-            <div class="quiz-progress">
-                <span id="progress-text">Select Quiz Options</span>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill"></div>
-                </div>
-                <div class="timer-container">
-                    <i class="fas fa-clock"></i>
-                    <span id="timer">00:00</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="quiz-body">
-            <!-- Setup Screen -->
-            <div id="setup-container" class="setup-container">
-                <h2 class="setup-title">Customize Your Quiz</h2>
-                
-                <div class="setup-options">
-                    <div class="setup-card">
-                        <h3><i class="fas fa-layer-group"></i> Category</h3>
-                        <div class="option-group" id="category-options">
-                            <!-- Categories will be populated by JavaScript -->
-                        </div>
-                    </div>
-                    
-                    <div class="setup-card">
-                        <h3><i class="fas fa-sliders-h"></i> Difficulty</h3>
-                        <div class="option-group" id="difficulty-options">
-                            <label class="option-label" data-value="any">
-                                <input type="radio" name="difficulty" value="any" checked>
-                                <span>Any Difficulty</span>
-                            </label>
-                            <label class="option-label" data-value="easy">
-                                <input type="radio" name="difficulty" value="easy">
-                                <span>Easy</span>
-                            </label>
-                            <label class="option-label" data-value="medium">
-                                <input type="radio" name="difficulty" value="medium">
-                                <span>Medium</span>
-                            </label>
-                            <label class="option-label" data-value="hard">
-                                <input type="radio" name="difficulty" value="hard">
-                                <span>Hard</span>
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="setup-card">
-                        <h3><i class="fas fa-cog"></i> Quiz Settings</h3>
-                        <div class="option-group">
-                            <label class="option-label" data-value="10">
-                                <input type="radio" name="questionCount" value="10" checked>
-                                <span>10 Questions</span>
-                            </label>
-                            <label class="option-label" data-value="15">
-                                <input type="radio" name="questionCount" value="15">
-                                <span>15 Questions</span>
-                            </label>
-                            <label class="option-label" data-value="20">
-                                <input type="radio" name="questionCount" value="20">
-                                <span>20 Questions</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                
-                <button id="start-btn">
-                    <i class="fas fa-play"></i>
-                    Start Quiz
-                </button>
-            </div>
-            
-            <!-- Loading Screen -->
-            <div id="loading" class="loading">
-                <div class="loading-spinner"></div>
-                <h3>Loading Questions</h3>
-                <p>Please wait while we prepare your quiz...</p>
-            </div>
-            
-            <!-- Error Screen -->
-            <div id="error-message" class="error-message">
-                <i class="fas fa-exclamation-triangle"></i>
-                <h3>Failed to Load Questions</h3>
-                <p>There was an error loading the quiz questions. Please check your internet connection and try again.</p>
-                <button type="button" id="retry-btn">
-                    <i class="fas fa-redo"></i>
-                    Try Again
-                </button>
-            </div>
-            
-            <!-- Question Screen -->
-            <div id="question-container" class="question-container">
-                <h2 class="question-text" id="question-text">Question text appears here</h2>
-                <div class="question-meta">
-                    <span class="meta-tag" id="category-tag">General Knowledge</span>
-                    <span class="meta-tag" id="difficulty-tag">Medium</span>
-                    <span class="meta-tag" id="type-tag">Multiple Choice</span>
-                </div>
-                <div class="options-container" id="options-container">
-                    <!-- Options will be inserted here by JavaScript -->
-                </div>
-            </div>
-            
-            <!-- Results Screen -->
-            <div id="results-container" class="results-container">
-                <div class="results-header">
-                    <h2>Quiz Completed!</h2>
-                    <p>You've finished the knowledge challenge</p>
-                </div>
-                
-                <div class="score-display">
-                    <div class="score-circle" id="score-circle">
-                        <span class="score-text" id="score-percent">0%</span>
-                    </div>
-                </div>
-                
-                <div class="score-details">
-                    <div class="score-item">
-                        <i class="fas fa-check-circle"></i>
-                        <div class="value" id="correct-answers">0</div>
-                        <div class="label">Correct Answers</div>
-                    </div>
-                    <div class="score-item">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <div class="value" id="score-percent-value">0%</div>
-                        <div class="label">Score</div>
-                    </div>
-                    <div class="score-item">
-                        <i class="fas fa-clock"></i>
-                        <div class="value" id="time-taken">00:00</div>
-                        <div class="label">Time Taken</div>
-                    </div>
-                </div>
-                
-                <div class="results-details" id="results-details">
-                    <!-- Results details will be inserted here by JavaScript -->
-                </div>
-                
-                <button id="restart-btn">
-                    <i class="fas fa-redo"></i>
-                    Take Another Quiz
-                </button>
-            </div>
-        </div>
-        
-        <div class="quiz-footer">
-            <button id="prev-btn">
-                <i class="fas fa-arrow-left"></i>
-                Previous
-            </button>
-            <button id="next-btn">
-                Next
-                <i class="fas fa-arrow-right"></i>
-            </button>
-            <button id="submit-btn">
-                <i class="fas fa-paper-plane"></i>
-                Submit Quiz
-            </button>
-        </div>
+<body class="dark-theme">
+    <!-- Cyberpunk CRT Scanline Screen Overlay -->
+    <div class="scanlines"></div>
+    <div class="aurora-bg">
+        <div class="aurora-blur aurora-1"></div>
+        <div class="aurora-blur aurora-2"></div>
+        <div class="aurora-blur aurora-3"></div>
     </div>
+
+    <!-- Mobile Drawer Sidebar Toggle Trigger -->
+    <button id="mobile-sidebar-toggle" class="mobile-sidebar-toggle" aria-label="Toggle Stats and Achievements Panel">
+        <i class="fas fa-trophy"></i>
+    </button>
+
+    <!-- Sidebar Overlay Backdrop for Mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- Complete Dashboard Grid Structure -->
+    <div class="dashboard-layout">
+        
+        <!-- Left Pane: Sidebar Profile Hub -->
+        <aside class="sidebar-pane" id="sidebar-pane">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-brain text-purple"></i> BrainWave</h2>
+                <button id="close-sidebar-btn" class="close-sidebar-btn" aria-label="Close stats panel">&times;</button>
+            </div>
+
+            <!-- Profile Summary Section -->
+            <section class="sidebar-section profile-card">
+                <h3><i class="fas fa-user-astronaut"></i> Player Profile</h3>
+                <div class="profile-stats">
+                    <div class="stat-box">
+                        <span class="value" id="stats-played">0</span>
+                        <span class="label">Games</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="value" id="stats-accuracy">0%</span>
+                        <span class="label">Accuracy</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Achievements / Badge Grid -->
+            <section class="sidebar-section">
+                <h3><i class="fas fa-medal text-gold"></i> Achievements</h3>
+                <div class="achievements-grid">
+                    <div class="badge-item locked" id="badge-speed">
+                        <i class="fas fa-bolt"></i>
+                        <span class="badge-tooltip">⚡ Speed Demon: Answer a question in under 3s</span>
+                    </div>
+                    <div class="badge-item locked" id="badge-perfect">
+                        <i class="fas fa-crosshairs"></i>
+                        <span class="badge-tooltip">🎯 Bullseye: Achieve 100% perfect score</span>
+                    </div>
+                    <div class="badge-item locked" id="badge-streak">
+                        <i class="fas fa-fire"></i>
+                        <span class="badge-tooltip">🔥 Streak Master: Correct answer streak of 7+</span>
+                    </div>
+                    <div class="badge-item locked" id="badge-polymath">
+                        <i class="fas fa-brain"></i>
+                        <span class="badge-tooltip">🧠 Polymath: Complete quizzes in 3+ categories</span>
+                    </div>
+                    <div class="badge-item locked" id="badge-veteran">
+                        <i class="fas fa-shield-alt"></i>
+                        <span class="badge-tooltip">🎖️ Veteran: Play a total of 10 quizzes</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Leaderboard High Scores -->
+            <section class="sidebar-section leaderboard-section">
+                <div class="leaderboard-header-row">
+                    <h3><i class="fas fa-trophy text-gold"></i> High Scores</h3>
+                    <button id="clear-scores-btn" class="clear-scores-btn" aria-label="Clear high scores board">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+                <div class="leaderboard-scroll-box">
+                    <table class="leaderboard-table" id="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Category</th>
+                                <th>Difficulty</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body">
+                            <tr>
+                                <td colspan="4" class="no-scores">No scores yet. Complete a quiz to rank!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </aside>
+
+        <!-- Right Pane: Active Quiz Arena -->
+        <main class="main-pane">
+            <div class="quiz-container">
+                <!-- Header Toolbar & Title -->
+                <header class="quiz-header">
+                    <div class="header-top">
+                        <h1><i class="fas fa-brain logo-icon"></i> BrainWave</h1>
+                        <div class="header-toolbar">
+                            <button id="header-sidebar-toggle" class="toolbar-btn header-stats-btn" aria-label="View Stats & Achievements" title="View Stats & Achievements">
+                                <i class="fas fa-trophy"></i>
+                            </button>
+                            <button id="audio-toggle" class="toolbar-btn" aria-label="Mute sound effects" title="Toggle sound effects">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                            <button id="theme-toggle" class="toolbar-btn" aria-label="Toggle dark mode" title="Toggle dark/light mode">
+                                <i class="fas fa-moon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p>Test your knowledge with questions from around the world</p>
+                    
+                    <!-- Global Progress Area -->
+                    <div class="quiz-progress-section">
+                        <div class="progress-info">
+                            <span id="progress-text">Quiz Dashboard Setup</span>
+                            <div class="timer-container" id="timer-container" aria-label="Timer">
+                                <i class="fas fa-clock"></i>
+                                <span id="timer">00:00</span>
+                            </div>
+                        </div>
+                        
+                        <div class="progress-bar-wrapper">
+                            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Question Countdown (Timed Mode) -->
+                        <div class="question-timer-bar" id="question-timer-bar">
+                            <div class="question-timer-fill" id="question-timer-fill"></div>
+                        </div>
+
+                        <!-- Question Nav Dot grid -->
+                        <div class="question-nav-grid" id="question-nav-grid">
+                            <!-- Dots filled programmatically -->
+                        </div>
+                    </div>
+                </header>
+                
+                <!-- Main Arena Screen Shells -->
+                <div class="quiz-body">
+                    
+                    <!-- Setup Customization Screen -->
+                    <div id="setup-container" class="setup-container">
+                        <h2 class="setup-title">Customize Your Quiz</h2>
+                        
+                        <div class="setup-options">
+                            <!-- Category list with search filter -->
+                            <div class="setup-card category-card">
+                                <h3><i class="fas fa-layer-group"></i> Category</h3>
+                                <div class="search-box">
+                                    <i class="fas fa-search search-icon"></i>
+                                    <input type="text" id="category-search" placeholder="Search categories..." aria-label="Search categories">
+                                </div>
+                                <div class="option-scroll-container" id="category-options" role="radiogroup" aria-label="Category Selection">
+                                    <!-- Dynamic elements filled programmatically -->
+                                    <div class="loading-small">
+                                        <div class="spinner-small"></div>
+                                        <span>Loading Categories...</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Difficulty & Question Type Selection -->
+                            <div class="setup-card flex-card">
+                                <div>
+                                    <h3><i class="fas fa-sliders-h"></i> Difficulty</h3>
+                                    <div class="option-grid" id="difficulty-options" role="radiogroup" aria-label="Select Difficulty">
+                                        <label class="option-label selected">
+                                            <input type="radio" name="difficulty" value="any" checked class="visually-hidden">
+                                            <span class="custom-radio"></span>
+                                            <span>Any Difficulty</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="difficulty" value="easy" class="visually-hidden">
+                                            <span class="custom-radio"></span>
+                                            <span>Easy</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="difficulty" value="medium" class="visually-hidden">
+                                            <span class="custom-radio"></span>
+                                            <span>Medium</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="difficulty" value="hard" class="visually-hidden">
+                                            <span class="custom-radio"></span>
+                                            <span>Hard</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="margin-top-med">
+                                    <h3><i class="fas fa-tasks"></i> Question Type</h3>
+                                    <div class="option-grid" id="type-options" role="radiogroup" aria-label="Select Question Type">
+                                        <label class="option-label selected">
+                                            <input type="radio" name="type" value="any" checked class="visually-hidden">
+                                            <span class="custom-radio"></span>
+                                            <span>Mixed Types</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="type" value="multiple" class="visually-hidden">
+                                            <span class="custom-radio"></span>
+                                            <span>Multiple Choice</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="type" value="boolean" class="visually-hidden">
+                                            <span class="custom-radio"></span>
+                                            <span>True / False</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Custom Question Count Slider & Timer Settings -->
+                            <div class="setup-card flex-card">
+                                <div>
+                                    <h3><i class="fas fa-cog"></i> Question Count</h3>
+                                    <div class="range-slider-wrapper">
+                                        <div class="slider-header-row">
+                                            <span class="slider-value-badge" id="count-value">10 Questions</span>
+                                        </div>
+                                        <input type="range" id="question-count-slider" name="questionCount" min="5" max="30" step="5" value="10" class="premium-slider" aria-label="Select Question Count">
+                                    </div>
+                                </div>
+
+                                <div class="margin-top-med">
+                                    <h3><i class="fas fa-hourglass-half"></i> Game Mode</h3>
+                                    <div class="mode-toggle-grid" id="mode-options" role="radiogroup" aria-label="Select Mode">
+                                        <label class="option-label selected">
+                                            <input type="radio" name="quizMode" value="zen" checked class="visually-hidden">
+                                            <span class="custom-radio"></span>
+                                            <span>Zen (No Limits)</span>
+                                        </label>
+                                        <label class="option-label">
+                                            <input type="radio" name="quizMode" value="timed" class="visually-hidden">
+                                            <span class="custom-radio"></span>
+                                            <span>Timed Challenge</span>
+                                        </label>
+                                    </div>
+                                    
+                                    <!-- Stepper custom timer value (revealed if Timed Challenge is active) -->
+                                    <div class="custom-timer-wrapper" id="custom-timer-wrapper" style="display: none;">
+                                        <span class="timer-label">Seconds per question:</span>
+                                        <div class="stepper-input">
+                                            <button type="button" id="timer-dec" class="step-btn" aria-label="Decrease time limit">-</button>
+                                            <input type="number" id="time-limit-input" value="15" min="5" max="60" readonly aria-label="Seconds per question limit">
+                                            <button type="button" id="timer-inc" class="step-btn" aria-label="Increase time limit">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button id="start-btn" class="primary-btn start-arena-btn">
+                            <i class="fas fa-play"></i> Enter Arena
+                        </button>
+                    </div>
+                    
+                    <!-- Loading Screen -->
+                    <div id="loading" class="loading-container">
+                        <div class="spinner-large"></div>
+                        <h3>Entering Arena</h3>
+                        <p id="loading-subtext">Fetching fresh questions from OpenTDB...</p>
+                    </div>
+                    
+                    <!-- Error Screen -->
+                    <div id="error-message" class="error-container">
+                        <i class="fas fa-exclamation-triangle error-icon"></i>
+                        <h3 id="error-title">Failed to Load Questions</h3>
+                        <p id="error-desc">There was an error loading the quiz questions. Please check your internet connection and try again.</p>
+                        <button type="button" id="retry-btn" class="primary-btn">
+                            <i class="fas fa-redo"></i> Try Again
+                        </button>
+                    </div>
+                    
+                    <!-- Active Question Screen -->
+                    <div id="question-container" class="question-container">
+                        <div class="question-meta-bar">
+                            <span class="meta-tag" id="category-tag"><i class="fas fa-tag"></i> General Knowledge</span>
+                            <span class="meta-tag" id="difficulty-tag"><i class="fas fa-signal"></i> Medium</span>
+                            <span class="meta-tag" id="type-tag"><i class="fas fa-list-ul"></i> Multiple Choice</span>
+                        </div>
+                        <h2 class="question-text" id="question-text">Question text appears here</h2>
+                        
+                        <div class="options-container" id="options-container" role="radiogroup" aria-label="Quiz Answer Options">
+                            <!-- Populated programmatically -->
+                        </div>
+                    </div>
+                    
+                    <!-- Results Dashboard Screen -->
+                    <div id="results-container" class="results-container">
+                        <div class="results-header">
+                            <h2>Arena Completed!</h2>
+                            <p>You've survived the knowledge test</p>
+                        </div>
+                        
+                        <div class="results-layout">
+                            <!-- Left Score Column -->
+                            <div class="results-left">
+                                <div class="score-display">
+                                    <div class="score-circle-wrapper">
+                                        <svg class="score-svg" viewBox="0 0 120 120">
+                                            <circle class="score-circle-bg" cx="60" cy="60" r="54" />
+                                            <circle class="score-circle-fill" id="score-circle-fill" cx="60" cy="60" r="54" transform="rotate(-90 60 60)" />
+                                        </svg>
+                                        <div class="score-text-inner">
+                                            <span class="score-text" id="score-percent">0%</span>
+                                            <span class="score-sub">Accuracy</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="score-details-grid">
+                                    <div class="detail-item">
+                                        <i class="fas fa-check-circle success-text"></i>
+                                        <span class="value" id="correct-answers">0</span>
+                                        <span class="label">Correct Answers</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-hourglass-end info-text"></i>
+                                        <span class="value" id="time-taken">00:00</span>
+                                        <span class="label">Time Taken</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-fire warning-text"></i>
+                                        <span class="value" id="streak-value">0</span>
+                                        <span class="label">Max Streak</span>
+                                    </div>
+                                </div>
+
+                                <div class="actions-wrapper">
+                                    <button id="share-btn" class="secondary-btn">
+                                        <i class="fas fa-share-alt"></i> Share Score
+                                    </button>
+                                    <button id="restart-btn" class="primary-btn">
+                                        <i class="fas fa-redo"></i> Play Again
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Right Interactive Accordion Breakdown Column -->
+                            <div class="results-right">
+                                <h3>Interactive Breakdown</h3>
+                                <p class="breakdown-sub">Click on any card to review answers and find detailed explanations online</p>
+                                <div class="results-details-scroll" id="results-details">
+                                    <!-- Populated programmatically -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Footer Question controls -->
+                <footer class="quiz-footer" id="quiz-footer">
+                    <button id="prev-btn" class="footer-btn" aria-label="Previous Question">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <button id="next-btn" class="footer-btn" aria-label="Next Question">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button id="submit-btn" class="footer-btn submit-style" aria-label="Submit Quiz">
+                        Submit Quiz <i class="fas fa-paper-plane"></i>
+                    </button>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
 
     <script src="script.js"></script>
 </body>
