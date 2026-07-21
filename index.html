@@ -142,7 +142,7 @@
                         </div>
                         
                         <div class="progress-bar-wrapper">
-                            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                            <div class="progress-bar" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
                                 <div class="progress-fill" id="progress-fill"></div>
                             </div>
                         </div>
@@ -261,7 +261,7 @@
                                     </div>
                                     
                                     <!-- Stepper custom timer value (revealed if Timed Challenge is active) -->
-                                    <div class="custom-timer-wrapper" id="custom-timer-wrapper" style="display: none;">
+                                    <div class="custom-timer-wrapper hidden" id="custom-timer-wrapper">
                                         <span class="timer-label">Seconds per question:</span>
                                         <div class="stepper-input">
                                             <button type="button" id="timer-dec" class="step-btn" aria-label="Decrease time limit">-</button>
@@ -273,7 +273,7 @@
                             </div>
                         </div>
                         
-                        <button id="start-btn" class="primary-btn start-arena-btn">
+                        <button type="button" id="start-btn" class="primary-btn start-arena-btn">
                             <i class="fas fa-play"></i> Enter Arena
                         </button>
                     </div>
